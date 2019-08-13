@@ -3,6 +3,9 @@ kind: PersistentVolumeClaim
 metadata:
   name: database-persistent-volume-claim
 spec:
+  # If a storage class is not defined, it will use the 'default'
+  # configured inside the cluster
+  # See documentation in https://kubernetes.io/docs/concepts/storage/storage-classes/
   accessModes:
     - ReadWriteOnce
   resources:

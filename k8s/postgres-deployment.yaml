@@ -13,9 +13,25 @@ spec:
       labels:
         component: postgres
     spec:
+      # General definition of volumes inside this deployment
+      volumes:
+        - name: postgres-storage
+          persistentVolumeClaim:
+            claimName: database-persistent-volume-claim
+
       containers:
       - name: postgres
         image: postgres
+        # Volume config specific to this container
+        volumeMounts:
+          # must be the same name as defined in 'volumes'
+          - name: postgres-storage
+            # where the PVC will be mounted
+            # imagine the mount process in linux:
+            # mount /dev/my_disk1  /my/destination/dir
+            mountPath: /var/lib/postgresql/data
+            # folder that holds the postgres data inside our host machine
+            subPath: postgres
         resources:
           limits:
             memory: "128Mi"
